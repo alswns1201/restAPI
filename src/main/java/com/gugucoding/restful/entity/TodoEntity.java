@@ -28,6 +28,15 @@ public class TodoEntity {
 
     private LocalDate dueDate;
 
+    public void changeTitle(String title){
+        this.title = title;
+    }
+    public void changeWrite(String writer){
+        this.writer = writer;
+    }
 
+    public void changeDueDate(LocalDate dueDate){
+        this.dueDate =dueDate;
+    }
 
 }
