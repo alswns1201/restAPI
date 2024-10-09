@@ -1,6 +1,7 @@
 package com.gugucoding.restful.repository;
 
 
+import com.gugucoding.restful.dto.TodoDTO;
 import com.gugucoding.restful.entity.TodoEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ public class TodoRepositoryTests {
                 .build();
         todoRepository.save(todoEntity);
 
+        //더미 테스트
         for(int i = 0; i < 100; i ++){
             TodoEntity todo = TodoEntity.builder() .title("부트save")
                     .writer("who")
@@ -72,9 +74,31 @@ public class TodoRepositoryTests {
         Pageable pageable = PageRequest.of(0,10, Sort.by("mno")
                 .descending());
         Page<TodoEntity> result = todoRepository.findAll(pageable);
+        Page<TodoEntity> result2 = todoRepository.listAll(pageable);
 
         List<TodoEntity> todoEntityList = result.getContent();
     }
+
+    @Test
+    public void Q클래스테스트(){
+        Pageable pageable = PageRequest.of(0,10,Sort.by("mno").descending());
+
+        Page<TodoEntity> result = todoRepository.search1(pageable);
+
+        List<TodoEntity> todoEntityList = result.getContent();
+        todoEntityList.forEach(todoEntity -> {
+            System.out.println(todoEntity);
+        });
+
+    }
+
+    @Test
+    public void testGetTodoDTO(){
+        long mno = 59L;
+        Optional<TodoDTO> result = todoRepository.getDTO(mno);
+        result.ifPresent(todoDTO -> {System.out.println(todoDTO);});
+    }
+
 
 
 }

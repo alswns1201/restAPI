@@ -20,6 +20,19 @@ RESTful API 서버 구현 - 구멍가게 코딩단
   - findById()를 하게 되면 , 현재 담고 있는게 있는지 판단하고 조회를 한다 
     - 같은걸 두번 조회를 하면 한번만 조회 됨.(영속성 컨텍스트 안에서 확인함.)
 
+# 쿼리 관련
+- Spring data JPA , QureyDsl 
+  - QueryDsl
+    ![img.png](img.png)
+  - 적용 후 Q클래스가 생성.
+  ![img_1.png](img_1.png)
+  
+- 쿼리 메소드
+- JPQL : @Qurey 를 이용한 쿼리 
+  - value , countQuery, nativeQuery 속성을 지정 할수 있다 .
+  - :를 이용해서 param을 사용 예) like %:param% and ~ / @Param("param)
+  - 
+
 # Test관련
 - @DataJpaTest : @SpringBootTest와 다르게 @Entity와 같은 데이터베이스 관련부분만 실행
 - @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
