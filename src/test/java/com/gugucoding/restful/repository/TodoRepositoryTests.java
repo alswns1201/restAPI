@@ -92,11 +92,30 @@ public class TodoRepositoryTests {
 
     }
 
+    /**
+     * DTO 테스트 - @Query , Q클래스 테스트 (QueryDsl)
+     */
+
     @Test
     public void testGetTodoDTO(){
         long mno = 59L;
         Optional<TodoDTO> result = todoRepository.getDTO(mno);
         result.ifPresent(todoDTO -> {System.out.println(todoDTO);});
+    }
+
+    @Test
+    public void testQueryDsldto(){
+
+        Pageable pageable = PageRequest.of(0,10,Sort.by("mno").descending());
+
+        Page<TodoDTO> result = todoRepository.searchDTO(pageable);
+
+        List<TodoDTO> dtoList = result.getContent();
+        dtoList.forEach(todoDTO -> {
+            System.out.println(todoDTO);
+        });
+
+
     }
 
 

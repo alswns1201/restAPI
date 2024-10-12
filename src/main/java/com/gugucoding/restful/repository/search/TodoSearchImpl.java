@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.expression.spel.ast.Projection;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class TodoSearchImpl extends QuerydslRepositorySupport implements TodoSea
         java.util.List<TodoEntity> entityList = query.fetch();
         long count = query.fetchCount();
 
-        return null;
+        return new PageImpl<>(entityList,pageable,count);
     }
 
     @Override
@@ -61,7 +62,14 @@ public class TodoSearchImpl extends QuerydslRepositorySupport implements TodoSea
 
         long count = dtoQuery.fetchCount();
 
-        return new PageImpl<>(dtoList,pageable,count);
+//        return new PageImpl<>(dtoList,pageable,count);
+        return PageableExecutionUtils.getPage(dtoList, pageable, dtoQuery::fetchCount);
+        /* 대량의 경우
+         * PageableExecutionUtils.getPage()를 사용하면 불필요한
+         * count 쿼리가 실행되는 케이스를 줄일 수 있음을 알 수 있었습니다.
+         * 첫 번째 페이지를 조회하거나 마지막 페이지를 조회할 때만큼은
+         * 불필요한 count 쿼리가 실행되지 않겠네요.
+         */
 
     }
 }

@@ -31,7 +31,13 @@ RESTful API 서버 구현 - 구멍가게 코딩단
 - JPQL : @Qurey 를 이용한 쿼리 
   - value , countQuery, nativeQuery 속성을 지정 할수 있다 .
   - :를 이용해서 param을 사용 예) like %:param% and ~ / @Param("param)
-  - 
+
+# QueryDsl
+- 인터페이스 , Impl : extend QuerydslRepositorySupport 
+  - QTodoEntity 사용
+- 페이징 
+  - return PageableExecutionUtils.getPage(dtoList, pageable, dtoQuery::fetchCount);
+  - return new PageImpl<>(dtoList,pageable,count);
 
 # Test관련
 - @DataJpaTest : @SpringBootTest와 다르게 @Entity와 같은 데이터베이스 관련부분만 실행

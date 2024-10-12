@@ -26,8 +26,12 @@ public interface TodoRepository extends JpaRepository<TodoEntity,Long>, TodoSear
             "where t.title  like %:keyword% and t.mno > 0 order by t.mno desc")
     Page<TodoEntity> listOfTile(@Param("keyword")String keyword, Pageable  pageable);
 
-
-    @Query(" SELECT t from TodoEntity t where t.mon =:mno")
+    /**
+     * Entity를 이용하지 않고 DTO를 이용 해서 사용.
+     * @param mno
+     * @return
+     */
+    @Query(" SELECT t from TodoEntity t where t.mno =:mno")
     Optional<TodoDTO> getDTO(@Param("mno")Long mno);
 
     
