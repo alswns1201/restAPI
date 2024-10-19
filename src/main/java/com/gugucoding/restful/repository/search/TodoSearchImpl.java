@@ -9,10 +9,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.data.support.PageableExecutionUtils;
-import org.springframework.expression.spel.ast.Projection;
 
 import java.util.List;
 
@@ -47,9 +45,6 @@ public class TodoSearchImpl extends QuerydslRepositorySupport implements TodoSea
 
         query.where(todoEntity.mno.gt(0L));
         getQuerydsl().applyPagination(pageable,query);
-
-        //JPQLQuery<TodoDTO> dtoQuery =query.select(Projections.constructor(TodoDTO.class,todoEntity));
-
 
         JPQLQuery<TodoDTO> dtoQuery =
                 query.select(Projections.bean

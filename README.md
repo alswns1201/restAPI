@@ -15,29 +15,47 @@ RESTful API 서버 구현 - 구멍가게 코딩단
   - extends JpaRepository<TodoEntity, Long>
 
 # 영속성 컨텍스트 , 더킹 체크
-- 하나의 트랜젠셕안에서 
+- 하나의 트랜젠션
   - Entity를 변화하면 자동으로 save를 쓰지 않아도 update가 적용됨. 이를 더킹 체크라함.
   - findById()를 하게 되면 , 현재 담고 있는게 있는지 판단하고 조회를 한다 
     - 같은걸 두번 조회를 하면 한번만 조회 됨.(영속성 컨텍스트 안에서 확인함.)
 
 # 쿼리 관련
-- Spring data JPA , QureyDsl 
-  - QueryDsl
-    ![img.png](img.png)
-  - 적용 후 Q클래스가 생성.
-  ![img_1.png](img_1.png)
-  
 - 쿼리 메소드
-- JPQL : @Qurey 를 이용한 쿼리 
+- JPQL : @Qurey 를 이용한 쿼리
   - value , countQuery, nativeQuery 속성을 지정 할수 있다 .
   - :를 이용해서 param을 사용 예) like %:param% and ~ / @Param("param)
+  
+- Spring data JPA , QureyDsl 
+  - QueryDsl
+  - ![img.png](img.png)
+  - 적용 후 Q클래스가 생성.
+  - ![img_1.png](img_1.png)
 
 # QueryDsl
 - 인터페이스 , Impl : extend QuerydslRepositorySupport 
-  - QTodoEntity 사용
-- 페이징 
+  - Q[Todo]Entity 사용 : Qclass에 사용된 @Entity에 대한 new QTodoEntity("") 가 정의 되어 있음.
+  - JPQLQuery : 
+
+# JPA Paging
+- Page<T> 페이지 정보를 담게 되는 인터페이스
+- Pageable 페이지 처리에 필요한 정보를 담게되는 인터페이스 
+  - Pagable이 JpaRepository가 상속된 인터페이스의 메소드에 파라미터로 전달.이때 Page<T>가 return 된다.
+
+- PageRequest 
+  - of(int page, int size) 0 부터 시작하는 페이지 번호와 개수 , 정렬이 지정되지 않는다. 
+  - of(int page, int size, Sort sort) 페이지 번호와 개수 , 정렬 
+  - PageRequest에 의해 Pageable이 객체화 된다. (Pageable === PageRequest.of())
+
+- 페이징
   - return PageableExecutionUtils.getPage(dtoList, pageable, dtoQuery::fetchCount);
   - return new PageImpl<>(dtoList,pageable,count);
+
+# Validate 관련
+- 1) BindingResult 이용 , 
+- 2) @RequestControllerAdvice AOP 이용
+  - AOP : 반복적인 문제에 대한 코드를 advice를 만들어서 기존 코드와 결합
+  - @ExceptionHandler 란 ? 
 
 # Test관련
 - @DataJpaTest : @SpringBootTest와 다르게 @Entity와 같은 데이터베이스 관련부분만 실행
