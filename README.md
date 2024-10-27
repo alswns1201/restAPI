@@ -60,8 +60,13 @@ RESTful API 서버 구현 - 구멍가게 코딩단
 # Spring Security
 - org.springframework.boot:spring-boot-starter-security
 - CustomSecurityConfig (@Configuration) 설정 
-- PasswordEncoder 
-  - BCryptPasswordEncoder 적용
+  - PasswordEncoder(@bean) 
+    - BCryptPasswordEncoder 적용
+  - SecurityFilterChain(@bean)
+    - formLogin() ,  logout() , csrf()
+    - CSRF는 웹사이트의 취약점을 이용하여 사용자가 의도하지 않는 행동을 유도하는 공격, 기본적으로 제어하고 있으며, 세션단위로 관리 되고 있음.
+    - (세션을 사용 하지 않을 경우 csrf disable)
+    - httpSecurity.sessionManagement()는 세션을 관리해 준다.
 
 
 # @EntityListeners 
