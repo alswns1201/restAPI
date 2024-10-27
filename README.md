@@ -57,6 +57,19 @@ RESTful API 서버 구현 - 구멍가게 코딩단
   - AOP : 반복적인 문제에 대한 코드를 advice를 만들어서 기존 코드와 결합
   - @ExceptionHandler 란 ? 
 
+# Spring Security
+- org.springframework.boot:spring-boot-starter-security
+- CustomSecurityConfig (@Configuration) 설정 
+- PasswordEncoder 
+  - BCryptPasswordEncoder 적용
+
+
+# @EntityListeners 
+- 엔티티의 생명주기 이벤트를 처리하기 위해 사용하는 기능이다. 이 기능을 사용하면 엔티티가 생성되거나 업데이트될 때 특정 로직을 실행
+- 어노테이션으로 @CreatedBy(작성자) , @CreatedDate(작성일) @LastModifiedDate(수정일) @LastModifiedBy(수정자)
+을 자동으로 넣어 주는 기능을  제공한다 .
+
+
 # Test관련
 - @DataJpaTest : @SpringBootTest와 다르게 @Entity와 같은 데이터베이스 관련부분만 실행
 - @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
