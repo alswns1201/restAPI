@@ -1,4 +1,4 @@
-package com.gugucoding.restful.member.entity.config;
+package com.gugucoding.restful.config;
 
 
 import lombok.extern.log4j.Log4j2;

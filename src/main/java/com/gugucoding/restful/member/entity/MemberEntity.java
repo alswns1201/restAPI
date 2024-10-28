@@ -33,7 +33,7 @@ public class MemberEntity {
     private LocalDateTime joinDate;
 
     @LastModifiedDate
-    private LocalDateTime modifedDate;
+    private LocalDateTime modifiedDate;
 
     private String role;
 
