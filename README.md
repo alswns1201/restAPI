@@ -69,6 +69,11 @@ RESTful API 서버 구현 - 구멍가게 코딩단
     - httpSecurity.sessionManagement()는 세션을 관리해 준다.
 
 
+# JWT 설정
+- implementation :  'io.jsonwebtoken:jjwt-api:0.12.5' ,
+- runtimeOnly : 'io.jsonwebtoken:jjwt-impl:0.12.5', 'io.jsonwebtoken:jjwt-jackson:0.12.5'
+- 통상 create() , validate() 메소드 구현(이 책에서는 JWTUtil class에 구현) 
+
 # @EntityListeners 
 - 엔티티의 생명주기 이벤트를 처리하기 위해 사용하는 기능이다. 이 기능을 사용하면 엔티티가 생성되거나 업데이트될 때 특정 로직을 실행
 - 어노테이션으로 @CreatedBy(작성자) , @CreatedDate(작성일) @LastModifiedDate(수정일) @LastModifiedBy(수정자)
