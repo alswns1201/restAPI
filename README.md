@@ -73,6 +73,11 @@ RESTful API 서버 구현 - 구멍가게 코딩단
 - implementation :  'io.jsonwebtoken:jjwt-api:0.12.5' ,
 - runtimeOnly : 'io.jsonwebtoken:jjwt-impl:0.12.5', 'io.jsonwebtoken:jjwt-jackson:0.12.5'
 - 통상 create() , validate() 메소드 구현(이 책에서는 JWTUtil class에 구현) 
+- refresh Token : id값만 사용 , Acess Token :  모든 정보 사용 
+- @EnableMethodSecurity 를 cofing에 사용시 = @Secure , @PreAuthorize 사용 가능 
+  - @PreAuthorize("hasAnyRole('ROLE_ADMIN')")를 Controller에 사용시 접근제한 적용.
+  - 접근 제한 시 AccessDeniedException 이 발생.
+
 
 # @EntityListeners 
 - 엔티티의 생명주기 이벤트를 처리하기 위해 사용하는 기능이다. 이 기능을 사용하면 엔티티가 생성되거나 업데이트될 때 특정 로직을 실행

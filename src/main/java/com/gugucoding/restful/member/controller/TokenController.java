@@ -37,6 +37,7 @@ public class TokenController {
         String accessToken =  jwtUtil.createToken(dataMap,10);
         String refreshToken = jwtUtil.createToken(Map.of("mid",mid),60*24*7);
 
+
         log.info("accessToken : " + accessToken);
         log.info("refreshToken : "+ refreshToken);
 
