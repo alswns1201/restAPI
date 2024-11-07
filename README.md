@@ -78,6 +78,19 @@ RESTful API 서버 구현 - 구멍가게 코딩단
   - @PreAuthorize("hasAnyRole('ROLE_ADMIN')")를 Controller에 사용시 접근제한 적용.
   - 접근 제한 시 AccessDeniedException 이 발생.
 
+# Filter 관련
+- OncePerRequestFilter 상속  : shouldNotFilter() , doFilterInternal()  처리 
+- 보통 header의 Authorization에 access token 값을 가지고 있는다. 
+- HttpSecurity 의 addFilterBefore() 의미  :  순서를 변경 
+  -  httpSecurity.addFilterBefore(jwtCheckFilter, UsernamePasswordAuthenticationFilter.class);
+- Principal
+  - Credential
+  - Authorities
+- UsernamePasswordAuthenticationToken 생성
+  - 3가지가 필요하다 (new Principal , Credential or null , SimpleGrantedAuthority )  
+- @PreAuthorize("hasRole('ROLE_ADMIN')")
+
+
 
 # @EntityListeners 
 - 엔티티의 생명주기 이벤트를 처리하기 위해 사용하는 기능이다. 이 기능을 사용하면 엔티티가 생성되거나 업데이트될 때 특정 로직을 실행
