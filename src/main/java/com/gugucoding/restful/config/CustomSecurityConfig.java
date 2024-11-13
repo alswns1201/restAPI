@@ -8,12 +8,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.reactive.CorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @Log4j2
@@ -52,8 +56,27 @@ public class CustomSecurityConfig {
         //
         httpSecurity.addFilterBefore(jwtCheckFilter, UsernamePasswordAuthenticationFilter.class);
 
+//        httpSecurity.cors(cors->{
+//            cors.configurationSource(corsConfigurationSource());
+//        });
 
         return httpSecurity.build();
     }
+
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource(){
+//        CorsConfiguration  corsConfiguration = new CorsConfiguration();
+//
+//        corsConfiguration.setAllowedOriginPatterns(List.of("*"));// 어디서든 허락
+//        corsConfiguration.setAllowedMethods(List.of("GET","POST","PUT","DELETE","HEAD","OPTIONS"));
+//        corsConfiguration.setAllowedHeaders(List.of("Authorization","Cache-Control","Context-Type"));
+//        corsConfiguration.setAllowCredentials(true);
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**",corsConfiguration);
+//
+//        return source ;
+//    }
+
 
 }
