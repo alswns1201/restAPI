@@ -21,7 +21,7 @@ public class SampleController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")  // ADMIN 권한 사용자만 접근 가능 .
     @GetMapping("/list")
     public ResponseEntity<?> list(){
-        String[] arr = {"AAAA","bBBBB"};
+        String[] arr = {"AAA","BBB","CCC"};
 
         return ResponseEntity.ok(arr);
     }
