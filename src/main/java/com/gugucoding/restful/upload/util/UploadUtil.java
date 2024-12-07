@@ -3,6 +3,7 @@ package com.gugucoding.restful.upload.util;
 
 import jakarta.annotation.PostConstruct;
 import lombok.extern.log4j.Log4j2;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
@@ -52,13 +53,34 @@ public class UploadUtil {
                     OutputStream out = new FileOutputStream(uploadPath+ File.separator+saveFileName)
             ){
                 FileCopyUtils.copy(in,out);
+                //썸네일 파일을 자동으로 _s 로 저장.
+                Thumbnails.of(new File(uploadPath+File.separator+saveFileName))
+                                .size(200,200)
+                                        .toFile(uploadPath+File.separator+"s_"+saveFileName);
+
+
                 result.add(saveFileName);
             }catch (Exception e ){
 
             }
         }
         return  result;
+    }
 
+    public void deleteFile(String fileName){
+        File file = new File(uploadPath+File.separator+fileName);
+        File thumFile = new File(uploadPath+File.separator+"s_"+fileName);
+        try {
+            if(file.exists()){
+                file.delete();
+            }
+            if(thumFile.exists()){
+                thumFile.delete();
+            }
+        }
+        catch (Exception e){
+
+        }
 
     }
 
