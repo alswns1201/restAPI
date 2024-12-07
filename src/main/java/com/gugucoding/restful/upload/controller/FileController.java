@@ -2,6 +2,7 @@ package com.gugucoding.restful.upload.controller;
 
 
 import com.gugucoding.restful.upload.exception.UploadNotSupportException;
+import com.gugucoding.restful.upload.util.UploadUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FileController {
 
+    private final UploadUtil uploadUtil;
+
     @PostMapping("/upload")
     public ResponseEntity<List<String>> uploadFile(@RequestParam("files")MultipartFile[] files){
         log.info("upload file ----");
@@ -33,7 +36,10 @@ public class FileController {
             checkFileType(file.getOriginalFilename());
         }
 
-        return null;
+        List<String> result = uploadUtil.upload(files);
+
+
+        return ResponseEntity.ok(result);
     }
 
     private void checkFileType(String fileName)throws UploadNotSupportException{
