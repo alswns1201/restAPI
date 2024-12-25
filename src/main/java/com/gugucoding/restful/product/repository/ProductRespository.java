@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface ProductRespository extends JpaRepository<ProductEntity,Long>{
+public interface ProductRespository extends JpaRepository<ProductEntity,Long> , ProductSearch{
 
     @EntityGraph(attributePaths = {"images"},type = EntityGraph.EntityGraphType.FETCH)
     @Query("select  p from ProductEntity p where p.pno = :pno")
