@@ -104,3 +104,13 @@ RESTful API 서버 구현 - 구멍가게 코딩단
   - Replace.NONE 설정이 없으면, 실제 데이터베이스를 이용할 수 없다.
 
 
+# 파일 업로드 관련
+- MultiparFile 이용
+- FileCopyUtils를 통한 파일 복사 
+- @PostConstruct 초기 주입  : 파일 경로 초기 생성 시 사용
+- Thumbnailator : 썸네일 이미지 관련 라이브러리
+
+# 예외 처리 
+- @RestControllerAdvice : 모든 컨트롤러의 예외를 관리 
+- @ExceptionHandler : 특정 예외를 적용 후 @RestCotnrollerAdvice 안에서 사용 
+
