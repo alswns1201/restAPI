@@ -3,6 +3,7 @@ package com.gugucoding.restful.product.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -41,6 +42,7 @@ public class ProductEntity {
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "tbl_product_images",joinColumns = @JoinColumn(name = "pno"))
     @Builder.Default
+    @BatchSize(size = 100) // N+1 문제 해결 .(1)
     private SortedSet<ProductImage> images = new TreeSet<>();
 
     public void addImage(String fileName){

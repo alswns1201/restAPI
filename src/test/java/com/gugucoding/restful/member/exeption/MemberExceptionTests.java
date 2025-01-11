@@ -11,6 +11,10 @@ import org.hibernate.query.sql.internal.ParameterRecognizerImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,6 +67,29 @@ public class MemberExceptionTests {
         Optional<ProductDTO> result = productRespository.getProductDTO(pno);
         ProductDTO productDTO = result.get();
         System.out.println(productDTO);
+    }
+
+    @Transactional
+    @Test
+    public void 테스트_listWithAllImages(){
+        Pageable pageable = PageRequest.of(0,10, Sort.by("pno").descending());
+
+        Page<ProductDTO> result = productRespository.listWithAllImages(pageable);
+
+        result.getContent().forEach(productDTO -> {
+            System.out.println(productDTO);
+        });
+
+    }
+
+    @Transactional
+    @Test
+    public void 테스트_listFetchAllImages(){
+        Pageable pageable = PageRequest.of(0,10, Sort.by("pno").descending());
+
+        Page<ProductDTO> result = productRespository.listFetchAllImages(pageable);
+
+
     }
 
 
