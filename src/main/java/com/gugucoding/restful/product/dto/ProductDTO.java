@@ -32,4 +32,19 @@ public class ProductDTO {
 
     }
 
+    public ProductEntity toEntity(){
+        ProductEntity productEntity = ProductEntity.builder()
+                .pno(pno)
+                .pname(pname)
+                .price(price)
+                .content(content)
+                .writer(writer)
+                .build();
+        if(imageList ==null || imageList.isEmpty()){
+            return productEntity;
+        }
+        imageList.forEach(productEntity::addImage);
+        return productEntity;
+    }
+
 }
