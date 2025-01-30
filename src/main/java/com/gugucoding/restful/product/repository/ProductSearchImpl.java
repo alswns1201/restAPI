@@ -6,6 +6,7 @@ import com.gugucoding.restful.product.entity.ProductEntity;
 import com.gugucoding.restful.product.entity.QProductEntity;
 import com.gugucoding.restful.product.entity.QProductImage;
 import com.gugucoding.restful.review.entity.QReviewEntity;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.domain.Page;
@@ -148,5 +149,37 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
         return new PageImpl<>(dtoList,pageable,count);
 
 
+    }
+
+    @Override
+    public Page<ProductDTO> listWithAllImagesReviewCount(Pageable pageable) {
+        QProductEntity productEntity = QProductEntity.productEntity;
+        QReviewEntity reviewEntity = QReviewEntity.reviewEntity;
+        QProductImage productImage = QProductImage.productImage;
+
+
+        JPQLQuery<ProductEntity> query = from(productEntity);
+        query.leftJoin(reviewEntity).on(reviewEntity.productEntity.eq(productEntity));
+
+        this.getQuerydsl().applyPagination(pageable,query);
+        query.groupBy(productEntity);
+
+        // Tuple 을 이용해서 ProductEntity의 값이 아닌 리뷰수도 같이 조회 .
+        JPQLQuery<Tuple> tupleJPQLQuery = query.select(productEntity,reviewEntity.countDistinct());
+
+        // tuple[0] 에는 productEntity가 담기고
+        // tupple[1]에는 reviewEntity count 가 담긴다.
+        List<Tuple> result  = tupleJPQLQuery.fetch();
+
+        List<ProductDTO> dtoList = result.stream().map(tuple -> {
+            ProductEntity product = tuple.get(0,ProductEntity.class);
+            long count = tuple.get(1,Long.class);
+
+            ProductDTO productDTO = new ProductDTO(product);
+
+            productDTO.setReviewCount(count);
+            return productDTO;
+        }).toList();
+        return new PageImpl<>(dtoList,pageable,tupleJPQLQuery.fetchCount());
     }
 }
