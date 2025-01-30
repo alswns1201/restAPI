@@ -2,8 +2,10 @@ package com.gugucoding.restful.product.repository;
 
 
 import com.gugucoding.restful.product.dto.ProductDTO;
+import com.gugucoding.restful.product.dto.ProductListDTO;
 import com.gugucoding.restful.product.entity.ProductEntity;
-import com.gugucoding.restful.product.entity.ProductImage;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

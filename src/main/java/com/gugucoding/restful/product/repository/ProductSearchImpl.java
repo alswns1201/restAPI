@@ -5,6 +5,7 @@ import com.gugucoding.restful.product.dto.ProductListDTO;
 import com.gugucoding.restful.product.entity.ProductEntity;
 import com.gugucoding.restful.product.entity.QProductEntity;
 import com.gugucoding.restful.product.entity.QProductImage;
+import com.gugucoding.restful.review.entity.QReviewEntity;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.domain.Page;
@@ -103,6 +104,46 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
         List<ProductEntity> entityList = query.fetch();
         List<ProductDTO> dtoList = entityList.stream().map(ProductDTO::new).toList();
         long count = query.fetchCount();
+
+        return new PageImpl<>(dtoList,pageable,count);
+
+
+    }
+
+    @Override
+    public Page<ProductListDTO> listWithReviewCount(Pageable pageable) {
+        QProductEntity productEntity = QProductEntity.productEntity;
+        QReviewEntity reviewEntity = QReviewEntity.reviewEntity;
+        QProductImage productImage = QProductImage.productImage;
+
+        // select * from productEntity
+        JPQLQuery<ProductEntity> query = from(productEntity);
+        // left join productEntity = reviewEntity
+        query.leftJoin(reviewEntity).on(reviewEntity.productEntity.eq(productEntity));
+        query.leftJoin(productEntity.images,productImage);
+
+        //where // 하나의 상품에 대표 이미지만 조회
+        query.where(productImage.idx.eq(0));
+        this.getQuerydsl().applyPagination(pageable,query);
+        // 상품에 여러 리뷰가 있을수 있으니 상품으로 그룹화 .
+        query.groupBy(productEntity);
+
+        JPQLQuery<ProductListDTO> dtojpqlQuery =
+                query.select(
+                        Projections.bean(ProductListDTO.class,
+                                productEntity.pno,
+                                productEntity.pname,
+                                productEntity.writer,
+                                productEntity.price,
+                                productImage.fileName.as("productImage"), //  조회시 명칭 as "productImage"
+                                reviewEntity.countDistinct().as("reviewCount") // 조회시 명칭 as "reviewCount"
+                        )
+                );
+        this.getQuerydsl().applyPagination(pageable,dtojpqlQuery);
+
+        List<ProductListDTO> dtoList = dtojpqlQuery.fetch();
+
+        long count = dtojpqlQuery.fetchCount();
 
         return new PageImpl<>(dtoList,pageable,count);
 

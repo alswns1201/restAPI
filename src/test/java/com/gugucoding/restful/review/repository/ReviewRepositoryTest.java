@@ -1,14 +1,19 @@
 package com.gugucoding.restful.review.repository;
 
 
+import com.gugucoding.restful.product.dto.ProductListDTO;
+import com.gugucoding.restful.product.repository.ProductRespository;
+import com.gugucoding.restful.product.repository.ProductSearch;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.parameters.P;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +24,9 @@ public class ReviewRepositoryTest {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    private ProductSearch productSearch;
 
 
     @Transactional
@@ -58,6 +66,19 @@ public class ReviewRepositoryTest {
                 .forEach(reviewDTO -> {
                     System.out.println(reviewDTO);
                 });
+
+    }
+
+    @Transactional
+    @Test
+    void Querydsl_리뷰수(){
+        Pageable pageable = PageRequest.of(0,10,Sort.by("pno").descending());
+        Page<ProductListDTO>  result = productSearch.listWithReviewCount(pageable);
+
+        // 각 상품에 대해서 조회 ( 리뷰수 포함 )
+        result.getContent().forEach(productListDTO -> {
+            System.out.println(productListDTO);
+        });
 
     }
 
